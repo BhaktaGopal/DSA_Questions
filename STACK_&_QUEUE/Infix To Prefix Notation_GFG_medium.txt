@@ -1,0 +1,46 @@
+Infix To Prefix Notation
+Difficulty: Medium
+You are given a string s representing an infix expression. Convert this infix expression to a prefix expression.
+
+Infix expression: The expression of the form a op b. When an operator is in between every pair of operands.
+Prefix expression: The expression of the form op a b. When an operator comes before its two operands.
+
+Note: The precedence order is as follows: (^) has the highest precedence and is evaluated from right to left. (* and /) come next with left to right associativity, and (+ and -) have the lowest precedence with left to right associativity.
+
+SOLUTION:
+from collections import deque
+
+class Solution:
+    def infixToPrefix(self, s):
+        p = {'+':1,'-':1,'*':2,'/':2,'^':3}
+        li = ['+','-','*','/','^']
+        res = ''
+        st = deque()
+
+        for i in range(len(s)-1, -1, -1):
+            c = s[i]
+
+            if c == ')':
+                st.append(c)
+                continue
+
+            if c == '(':
+                while st and st[-1] != ')':
+                    res += st.pop()
+                st.pop()
+                continue
+
+            if c in li:
+                while (st and st[-1] != ')' and
+                       (p[st[-1]] > p[c] or
+                       (p[st[-1]] == p[c] and c == '^'))): 
+                    res += st.pop()
+                st.append(c)
+                continue
+
+            res += c
+
+        while st:
+            res += st.pop()
+
+        return res[::-1]

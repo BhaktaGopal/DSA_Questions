@@ -1,0 +1,33 @@
+Postfix to Prefix Conversion
+Difficulty: Medium
+You are given a string s that represents the postfix form of a valid mathematical expression. Convert it to its prefix form.
+
+Examples :
+
+Input: s = "ABC/-AK/L-*"
+Output: "*-A/BC-/AKL"
+Explanation: 
+Postfix to infix: ABC/-AK/L-* becomes (A - (B / C)) * ((A / K) - L)
+Convert left part to Prefix: (A - (B / C)) becomes -A/BC
+Convert right part to Prefix: ((A / K) - L) becomes -/AKL
+Combine both with * to get *-A/BC-/AKL
+
+SOLUTION:
+
+from collections import deque
+class Solution:
+    def postToPre(self, s):
+        # Code here
+        li = ['*','-','+','/','^']
+        res = ''
+        st = deque()
+        for i in s:
+            if i not in li:
+                st.append(i)
+            else:
+                b = st.pop()
+                a = st.pop()
+                res = i + a+b
+                st.append(res)
+        return res
+        

@@ -1,0 +1,34 @@
+Prefix to Infix Conversion
+Difficulty: Medium
+You are given a string S of size N that represents the prefix form of a valid mathematical expression. The string S contains only lowercase and uppercase alphabets as operands and the operators are +, -, *, /, %, and ^.Convert it to its infix form.
+
+Example 1:
+
+Input: 
+*-A/BC-/AKL
+Output: 
+((A-(B/C))*((A/K)-L))
+Explanation: 
+The above output is its valid infix form.
+
+
+SOLUTION:
+
+#User function Template for python3
+from collections import deque
+class Solution:
+    def preToInfix(self, pre_exp):
+        # Code here
+        st = deque()
+        li = ['*','-','+','/','^']
+        res = ''
+        for i in range(len(pre_exp)-1,-1,-1):
+            c = pre_exp[i]
+            if pre_exp[i] not in li:
+                st.append(pre_exp[i])
+            else:
+                res = '('+st.pop() + c + st.pop()+')'
+                st.append(res)
+        return res
+                
+#TRAVERSE FROM RIGHT TO LEFT**
