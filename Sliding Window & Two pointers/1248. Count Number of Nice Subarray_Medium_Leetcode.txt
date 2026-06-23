@@ -1,0 +1,40 @@
+1248. Count Number of Nice Subarrays
+Medium
+Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
+
+Return the number of nice sub-arrays.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,2,1,1], k = 3
+Output: 2
+Explanation: The only sub-arrays with 3 odd numbers are [1,1,2,1] and [1,2,1,1].
+
+
+SOLUTION:
+
+class Solution:
+    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+        for i in range(len(nums)):
+            if nums[i]%2==0:
+                nums[i]=0
+            else:
+                nums[i]=1
+        def res(nums,goal):
+            if goal<0:
+                return 0
+            l = 0
+            r = 0
+            c = 0
+            s  =0
+            while r<len(nums):
+                s+=nums[r]
+                while s>goal:
+                    s-=nums[l]
+                    l+=1
+                c+=r-l+1
+                r+=1
+            return c
+        return res(nums,k)-res(nums,k-1)  

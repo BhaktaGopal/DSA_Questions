@@ -1,0 +1,34 @@
+1358. Number of Substrings Containing All Three Characters
+Medium
+Given a string s consisting only of characters a, b and c.
+
+Return the number of substrings containing at least one occurrence of all these characters a, b and c.
+
+ 
+
+Example 1:
+
+Input: s = "abcabc"
+Output: 10
+Explanation: The substrings containing at least one occurrence of the characters a, b and c are "abc", "abca", "abcab", "abcabc", "bca", "bcab", "bcabc", "cab", "cabc" and "abc" (again).
+
+
+SOLUTION:
+class Solution:
+    def numberOfSubstrings(self, s: str) -> int:
+        i = 0
+        j = 0
+        c = 0
+        d = defaultdict(int)
+        while j<len(s):
+            d[s[j]]+=1
+            while len(d)==3:
+                c+=len(s)-j
+                d[s[i]]-=1
+                if d[s[i]]==0:
+                    del d[s[i]]
+                i+=1
+            j+=1
+        return c
+            
+        
