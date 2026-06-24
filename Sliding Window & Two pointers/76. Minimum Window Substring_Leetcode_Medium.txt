@@ -1,0 +1,46 @@
+76. Minimum Window Substring
+Hard
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+ 
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+
+SOLUTION:
+
+# from collections import defaultdict
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if len(t)>len(s) or (len(s)==1 and s[0] != t[0]):
+            return ""
+        d= defaultdict(int)
+        i =0
+        j =0
+        c = len(t)
+        sb = (0,float('inf'))
+        for l in t:
+            d[l] +=1
+        while j<len(s):
+            if d[s[j]] >0:
+                c-=1
+            d[s[j]]-=1
+            if c==0:
+                while True:
+                    if d[s[i]]==0:
+                        break
+                    d[s[i]]+=1
+                    i+=1
+                if j-i+1 < sb[1]-sb[0]+1:
+                    sb=(i,j)
+                     
+                d[s[i]]+=1
+                i+=1
+                c+=1
+            j+=1
+        return "" if sb[1]>len(s) else s[sb[0]:sb[1]+1]
