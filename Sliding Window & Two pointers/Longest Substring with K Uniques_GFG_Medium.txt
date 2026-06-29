@@ -1,0 +1,37 @@
+Longest Substring with K Uniques
+Difficulty: Medium
+
+You are given a string s consisting only lowercase alphabets and an integer k. Your task is to find the length of the longest substring that contains exactly k distinct characters.
+
+Note : If no such substring exists, return -1. 
+
+Examples:
+
+Input: s = "aabacbebebe", k = 3
+Output: 7
+Explanation: The longest substring with exactly 3 distinct characters is "cbebebe", which includes 'c', 'b', and 'e'.
+
+SOLUTION:
+
+from collections import defaultdict
+class Solution:
+    def longestKSubstr(self, s, k):
+        # code here
+        if k>len(s):
+            return -1
+        i = 0
+        j = 0
+        c = 0
+        mp = defaultdict(int)
+        mp1 = defaultdict(int)
+        while j<len(s):
+            mp1[s[j]]+=1
+            if len(mp1)==k:
+                c = max(c,j-i+1)
+            while i<j and len(mp1)>k:
+                mp1[s[i]]-=1
+                if mp1[s[i]]==0:
+                    del mp1[s[i]]
+                i+=1
+            j+=1
+        return c if c!=0 else -1
